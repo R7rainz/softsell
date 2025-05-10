@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Root variables for light and dark themes */
 @layer base {
   :root {

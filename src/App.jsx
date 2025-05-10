@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { ThemeProvider } from "./components/theme-provider"
 import Header from "./components/Header"
@@ -15,7 +13,7 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false)
 
   return (
-    <ThemeProvider defaultTheme="light">
+    <ThemeProvider defaultTheme="dark">
       <div className="min-h-screen flex flex-col">
         <Header />
         <main>

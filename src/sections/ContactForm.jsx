@@ -1,7 +1,5 @@
-"use client"
-
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "../components/ui/button"
 import { CheckCircle } from "lucide-react"
 
@@ -14,7 +12,12 @@ const licenseTypes = [
   "Other",
 ]
 
+const steps = ["Contact Info", "Company Details", "Message", "Review"]
+
 const ContactForm = () => {
+  const [step, setStep] = useState(0)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,23 +27,32 @@ const ContactForm = () => {
   })
 
   const [errors, setErrors] = useState({})
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const validate = () => {
+  const validateStep = () => {
     const newErrors = {}
-    if (!formData.name.trim()) newErrors.name = "Name is required"
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid"
+    if (step === 0) {
+      if (!formData.name.trim()) newErrors.name = "Name is required"
+      if (!formData.email.trim()) {
+        newErrors.email = "Email is required"
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        newErrors.email = "Email is invalid"
+      }
+    } else if (step === 1) {
+      if (!formData.company.trim()) newErrors.company = "Company is required"
+      if (!formData.licenseType) newErrors.licenseType = "License type is required"
+    } else if (step === 2) {
+      if (!formData.message.trim()) newErrors.message = "Message is required"
     }
-    if (!formData.company.trim()) newErrors.company = "Company is required"
-    if (!formData.licenseType) newErrors.licenseType = "Please select a license type"
-    if (!formData.message.trim()) newErrors.message = "Message is required"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
+
+  const handleNext = () => {
+    if (validateStep()) setStep((prev) => prev + 1)
+  }
+
+  const handlePrev = () => setStep((prev) => prev - 1)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -48,7 +60,6 @@ const ContactForm = () => {
       ...prev,
       [name]: value,
     }))
-
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -59,9 +70,10 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (validate()) {
+    if (validateStep()) {
       console.log("Form submitted:", formData)
       setIsSubmitted(true)
+      setStep(0)
       setFormData({
         name: "",
         email: "",
@@ -72,142 +84,164 @@ const ContactForm = () => {
     }
   }
 
+  const fieldVariants = {
+    initial: { opacity: 0, x: 50 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -50 },
+  }
+
   return (
     <section id="contact" className="py-20">
-      <div className="container mx-auto px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
-            <motion.h2
-              className="text-3xl md:text-4xl font-bold mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              Let’s Start a Conversation
-            </motion.h2>
-            <motion.p
-              className="text-xl text-foreground/80"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              Tell us about your software license. We’ll respond within 24 hours.
-            </motion.p>
-          </div>
+      <div className="container max-w-xl mx-auto px-4">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">Let’s Start a Conversation</h2>
+          <p className="text-lg text-foreground/80">
+            Tell us about your software license. We’ll respond within 24 hours.
+          </p>
+        </div>
 
-          <motion.div
-            className="glass rounded-xl p-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            {isSubmitted ? (
-              <div className="text-center py-8">
-                <CheckCircle className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
-                <p className="text-foreground/80 mb-6">
-                  Your message has been submitted successfully. We'll get back to you shortly.
-                </p>
-                <Button variant="minimal" onClick={() => setIsSubmitted(false)}>
-                  Send Another Message
-                </Button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-lg font-semibold mb-1">
-                    What's your full name?
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="John Doe"
-                    className={`w-full px-4 py-2 rounded-lg border ${errors.name ? "border-red-500" : "border-input"} bg-background/50 backdrop-blur-sm`}
-                  />
-                  {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-lg font-semibold mb-1">
-                    Where can we reach you?
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="you@example.com"
-                    className={`w-full px-4 py-2 rounded-lg border ${errors.email ? "border-red-500" : "border-input"} bg-background/50 backdrop-blur-sm`}
-                  />
-                  {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="company" className="block text-lg font-semibold mb-1">
-                    What's the name of your company?
-                  </label>
-                  <input
-                    id="company"
-                    name="company"
-                    type="text"
-                    value={formData.company}
-                    onChange={handleChange}
-                    placeholder="Acme Corp"
-                    className={`w-full px-4 py-2 rounded-lg border ${errors.company ? "border-red-500" : "border-input"} bg-background/50 backdrop-blur-sm`}
-                  />
-                  {errors.company && <p className="mt-1 text-sm text-red-500">{errors.company}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="licenseType" className="block text-lg font-semibold mb-1">
-                    What type of software license are you selling?
-                  </label>
-                  <select
-                    id="licenseType"
-                    name="licenseType"
-                    value={formData.licenseType}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-2 rounded-lg border ${errors.licenseType ? "border-red-500" : "border-input"} bg-background/50 backdrop-blur-sm`}
+        <div className="glass rounded-xl p-8 shadow-lg">
+          {isSubmitted ? (
+            <div className="text-center py-8">
+              <CheckCircle className="w-16 h-16 text-primary mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
+              <p className="text-foreground/80 mb-6">
+                Your message has been submitted successfully.
+              </p>
+              <Button variant="minimal" onClick={() => setIsSubmitted(false)}>
+                Send Another Message
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <AnimatePresence mode="wait">
+                {step === 0 && (
+                  <motion.div
+                    key="step1"
+                    {...fieldVariants}
+                    transition={{ duration: 0.4 }}
                   >
-                    <option value="">Choose a license type</option>
-                    {licenseTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.licenseType && <p className="mt-1 text-sm text-red-500">{errors.licenseType}</p>}
-                </div>
+                    <div className="mb-4">
+                      <label className="block font-semibold mb-1">Full Name</label>
+                      <input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 rounded border bg-background/60"
+                        placeholder="John Doe"
+                      />
+                      {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+                    </div>
+                    <div>
+                      <label className="block font-semibold mb-1">Email</label>
+                      <input
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 rounded border bg-background/60"
+                        placeholder="you@example.com"
+                      />
+                      {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                    </div>
+                  </motion.div>
+                )}
 
-                <div>
-                  <label htmlFor="message" className="block text-lg font-semibold mb-1">
-                    Can you tell us more about the licenses?
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Details about the software licenses you want to sell..."
-                    className={`w-full px-4 py-2 rounded-lg border ${errors.message ? "border-red-500" : "border-input"} bg-background/50 backdrop-blur-sm`}
-                  ></textarea>
-                  {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
-                </div>
+                {step === 1 && (
+                  <motion.div
+                    key="step2"
+                    {...fieldVariants}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <div className="mb-4">
+                      <label className="block font-semibold mb-1">Company</label>
+                      <input
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 rounded border bg-background/60"
+                        placeholder="Acme Corp"
+                      />
+                      {errors.company && <p className="text-red-500 text-sm">{errors.company}</p>}
+                    </div>
+                    <div>
+                      <label className="block font-semibold mb-1">License Type</label>
+                      <select
+                        name="licenseType"
+                        value={formData.licenseType}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 rounded border bg-background/60"
+                      >
+                        <option value="">Choose a license type</option>
+                        {licenseTypes.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.licenseType && (
+                        <p className="text-red-500 text-sm">{errors.licenseType}</p>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
 
-                <Button type="submit" variant="default" className="w-full">
-                  Submit
-                </Button>
-              </form>
-            )}
-          </motion.div>
+                {step === 2 && (
+                  <motion.div
+                    key="step3"
+                    {...fieldVariants}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <label className="block font-semibold mb-1 mb-2">
+                      Details about the licenses
+                    </label>
+                    <textarea
+                      name="message"
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded border bg-background/60"
+                      placeholder="Tell us more about the licenses you’re selling..."
+                    ></textarea>
+                    {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
+                  </motion.div>
+                )}
+
+                {step === 3 && (
+                  <motion.div
+                    key="step4"
+                    {...fieldVariants}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <h3 className="font-bold text-xl mb-4">Review your details</h3>
+                    <ul className="space-y-2 text-foreground/90">
+                      <li><strong>Name:</strong> {formData.name}</li>
+                      <li><strong>Email:</strong> {formData.email}</li>
+                      <li><strong>Company:</strong> {formData.company}</li>
+                      <li><strong>License Type:</strong> {formData.licenseType}</li>
+                      <li><strong>Message:</strong> {formData.message}</li>
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Step Navigation */}
+              <div className="flex justify-between pt-4">
+                {step > 0 && (
+                  <Button type="button" variant="outline" onClick={handlePrev}>
+                    Back
+                  </Button>
+                )}
+                {step < steps.length - 1 ? (
+                  <Button type="button" onClick={handleNext}>
+                    Next
+                  </Button>
+                ) : (
+                  <Button type="submit">Submit</Button>
+                )}
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </section>

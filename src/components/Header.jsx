@@ -1,15 +1,30 @@
-"use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useTheme } from "./theme-provider"
 import { Button } from "./ui/button"
 import { Menu, X, Sun, Moon } from "lucide-react"
 import { motion } from "framer-motion"
 
+const navItems = [
+  { name: "How It Works", href: "how-it-works" },
+  { name: "Why Choose Us", href: "why-choose-us" },
+  { name: "Testimonials", href: "testimonials" },
+  { name: "Contact", href: "contact" },
+]
+
 const Navbar = () => {
   const { theme, setTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  // Smooth scroll handler
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" })
+      setIsMobileMenuOpen(false)
+    }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,13 +37,6 @@ const Navbar = () => {
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light")
   }
-
-  const navItems = [
-    { name: "How It Works", href: "#how-it-works" },
-    { name: "Why Choose Us", href: "#why-choose-us" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
-  ]
 
   return (
     <header
@@ -57,21 +65,24 @@ const Navbar = () => {
             </a>
           </motion.div>
 
+          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item, index) => (
-              <motion.div
+              <motion.button
                 key={item.name}
+                onClick={() => scrollToSection(item.href)}
+                whileTap={{ scale: 0.95 }}
+                className="px-3 py-2 text-sm rounded-lg hover:bg-accent/50 transition-colors"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <a href={item.href} className="px-3 py-2 text-sm rounded-lg hover:bg-accent/50 transition-colors">
-                  {item.name}
-                </a>
-              </motion.div>
+                {item.name}
+              </motion.button>
             ))}
           </nav>
 
+          {/* Desktop Actions */}
           <motion.div
             className="hidden md:flex items-center space-x-2"
             initial={{ opacity: 0, x: 20 }}
@@ -84,6 +95,7 @@ const Navbar = () => {
             <Button variant="default">Get Started</Button>
           </motion.div>
 
+          {/* Mobile Icons */}
           <div className="md:hidden flex items-center">
             <Button onClick={toggleTheme} variant="minimal" size="icon" className="mr-2 rounded-xl">
               {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
@@ -100,7 +112,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <motion.div
           className="md:hidden glass mt-2 rounded-xl mx-4 overflow-hidden"
@@ -111,14 +123,14 @@ const Navbar = () => {
         >
           <div className="p-4 space-y-3">
             {navItems.map((item) => (
-              <a
+              <motion.button
                 key={item.name}
-                href={item.href}
-                className="block px-4 py-2 rounded-lg hover:bg-accent/50 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => scrollToSection(item.href)}
+                whileTap={{ scale: 0.95 }}
+                className="block w-full text-left px-4 py-2 rounded-lg hover:bg-accent/50 transition-colors"
               >
                 {item.name}
-              </a>
+              </motion.button>
             ))}
             <Button variant="default" className="w-full mt-4">
               Get Started

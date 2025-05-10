@@ -1,5 +1,3 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { Upload, DollarSign, CreditCard } from "lucide-react"
 
@@ -50,21 +48,21 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <motion.div
               key={index}
-              className="glass rounded-xl p-8 relative"
+              className="glass rounded-xl p-8 relative hover:scale-[1.02] transition-transform duration-300 shadow-md hover:shadow-lg"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
             >
-              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-primary/10 rounded-full p-3 border border-primary/20">
+              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-primary/10 rounded-full p-3 border border-primary/20 shadow-sm">
                 <div className="bg-background rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold text-primary">
                   {index + 1}
                 </div>
               </div>
               <div className="mt-8 text-center">
                 <div className="mb-4 flex justify-center">{step.icon}</div>
-                <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-                <p className="text-foreground/80">{step.description}</p>
+                <h3 className="text-lg md:text-xl font-semibold mb-2 tracking-tight">{step.title}</h3>
+                <p className="text-foreground/70 leading-relaxed">{step.description}</p>
               </div>
             </motion.div>
           ))}

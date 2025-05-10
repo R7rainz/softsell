@@ -1,5 +1,3 @@
-"use client"
-
 import { useRef } from "react"
 import { Button } from "../components/ui/button"
 import { motion, useScroll, useTransform, useInView } from "framer-motion"

@@ -1,7 +1,6 @@
-"use client"
-
 import { useTheme } from "./theme-provider"
 import { motion } from "framer-motion"
+import { Twitter, Linkedin, Github, Youtube } from "lucide-react"
 
 const Footer = () => {
   const { theme } = useTheme()
@@ -63,14 +62,21 @@ const Footer = () => {
                 dormant assets into immediate capital.
               </p>
               <div className="flex space-x-4">
-                {["Twitter", "LinkedIn", "GitHub", "YouTube"].map((social) => (
+                {[
+                  { icon: Twitter, name: "Twitter", link: "https://twitter.com" },
+                  { icon: Linkedin, name: "LinkedIn", link: "https://linkedin.com" },
+                  { icon: Github, name: "GitHub", link: "https://github.com" },
+                  { icon: Youtube, name: "YouTube", link: "https://youtube.com" },
+                ].map(({ icon: Icon, name, link }) => (
                   <a
-                    key={social}
-                    href="#"
+                    key={name}
+                    href={link}
                     className="w-10 h-10 rounded-lg bg-background/50 flex items-center justify-center hover:bg-primary/10 transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <span className="sr-only">{social}</span>
-                    <div className="w-5 h-5 bg-foreground/70 mask-icon-{social.toLowerCase()}"></div>
+                    <span className="sr-only">{name}</span>
+                    <Icon className="w-5 h-5 text-foreground/70" />
                   </a>
                 ))}
               </div>
