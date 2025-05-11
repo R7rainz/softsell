@@ -225,7 +225,6 @@ const ContactForm = () => {
                 )}
               </AnimatePresence>
 
-              {/* Step Navigation */}
               <div className="flex justify-between pt-4">
                 {step > 0 && (
                   <Button type="button" variant="outline" onClick={handlePrev}>

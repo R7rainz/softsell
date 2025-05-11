@@ -9,12 +9,10 @@ const Hero = () => {
   const isInView = useInView(containerRef, { once: false, amount: 0.3 })
   const { scrollY } = useScroll()
 
-  // Parallax effect
   const y1 = useTransform(scrollY, [0, 500], [0, 150])
   const y2 = useTransform(scrollY, [0, 500], [0, -150])
   const opacity = useTransform(scrollY, [0, 300], [1, 0.5])
 
-  // Staggered animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -78,10 +76,7 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden" ref={containerRef}>
-      {/* Interactive background */}
       <ParticleBackground />
-
-      {/* Decorative elements */}
       <motion.div
         className="absolute -top-20 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
         animate={{
@@ -185,13 +180,10 @@ const Hero = () => {
                 },
               }}
             >
-              {/* Glow effect */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur opacity-30 animate-pulse-subtle"></div>
 
-              {/* Main image */}
               <div className="relative glass rounded-2xl shadow-xl overflow-hidden border border-white/10">
                 <div className="p-6">
-                  {/* Dashboard mockup */}
                   <div className="rounded-xl overflow-hidden shadow-lg">
                     <div className="bg-secondary/90 p-2 flex items-center">
                       <div className="flex space-x-1.5">
@@ -248,7 +240,6 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
         initial={{ opacity: 0, y: -20 }}

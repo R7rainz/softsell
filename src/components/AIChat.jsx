@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./ui/button"
 import { MessageCircle, Send, X } from "lucide-react"
 
-// Sample predefined questions and answers
 const faqData = [
   {
     question: "How do I sell my license?",
@@ -27,7 +26,7 @@ const faqData = [
   },
 ]
 
-const ChatWidget = ({ isOpen, setIsOpen }) => {
+const AIChat = ({ isOpen, setIsOpen }) => {
   const [messages, setMessages] = useState([
     {
       type: "bot",
@@ -43,7 +42,6 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
   const [inputValue, setInputValue] = useState("")
   const messagesEndRef = useRef(null)
 
-  // Auto-scroll to bottom of messages
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
@@ -53,13 +51,10 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
   const handleSendMessage = (text = inputValue) => {
     if (!text.trim()) return
 
-    // Add user message
     setMessages((prev) => [...prev, { type: "user", content: text }])
     setInputValue("")
 
-    // Simulate AI processing
     setTimeout(() => {
-      // Find matching FAQ or provide fallback response
       const matchingFaq = faqData.find(
         (faq) =>
           faq.question.toLowerCase().includes(text.toLowerCase()) ||
@@ -164,13 +159,12 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
       return
     }
 
-    // Handle regular suggestions as user messages
     handleSendMessage(suggestion)
   }
 
   return (
     <>
-      {/* Chat toggle button */}
+      {/* toggle button of chat*/}
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
@@ -182,7 +176,6 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
         </Button>
       </div>
 
-      {/* Chat window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -192,7 +185,6 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
             transition={{ duration: 0.2 }}
             className="fixed bottom-24 right-6 w-[350px] sm:w-[400px] h-[500px] glass rounded-xl shadow-xl z-50 flex flex-col"
           >
-            {/* Chat header */}
             <div className="p-4 border-b border-border/20 rounded-t-xl">
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3">
@@ -202,7 +194,6 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
               </div>
             </div>
 
-            {/* Chat messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.map((message, index) => (
                 <div key={index} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
@@ -215,7 +206,6 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
                   >
                     <p>{message.content}</p>
 
-                    {/* Suggestion chips */}
                     {message.type === "bot" && message.suggestions && message.suggestions.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-2">
                         {message.suggestions.map((suggestion, i) => (
@@ -235,7 +225,6 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Chat input */}
             <div className="p-4 border-t border-border/20">
               <form
                 onSubmit={(e) => {
@@ -263,4 +252,4 @@ const ChatWidget = ({ isOpen, setIsOpen }) => {
   )
 }
 
-export default ChatWidget
+export default AIChat

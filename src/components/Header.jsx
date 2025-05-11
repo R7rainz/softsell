@@ -52,7 +52,6 @@ const Navbar = () => {
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mr-3 shadow-inner">
                   <span className="text-xl font-bold text-primary">S</span>
                 </div>
-                {/* Glow effect like Hyprland */}
                 <div className="absolute -inset-1.5 rounded-xl bg-primary/30 blur-md opacity-30 group-hover:opacity-50 transition" />
               </div>
               <span className="text-xl font-medium">
@@ -61,7 +60,7 @@ const Navbar = () => {
             </a>
           </motion.div>
 
-          {/* Desktop Nav */}
+          {/* pc navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navigationLinks.map((item, index) => (
               <motion.button
@@ -75,13 +74,11 @@ const Navbar = () => {
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
                 {item.name}
-                {/* Hover underline effect */}
                 <span className="absolute left-1/2 bottom-1 transform -translate-x-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-3/4" />
               </motion.button>
             ))}
           </nav>
 
-          {/* Desktop Actions */}
           <motion.div
             className="hidden md:flex items-center space-x-2"
             initial={{ opacity: 0, x: 20 }}
@@ -104,7 +101,7 @@ const Navbar = () => {
             </Button>
           </motion.div>
 
-          {/* Mobile Icons */}
+          {/* icons for mobile*/}
           <div className="md:hidden flex items-center">
             <Button
               onClick={toggleTheme}
@@ -126,7 +123,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* mobile menu*/}
       {isMobileMenuOpen && (
         <motion.div
           className="md:hidden mt-2 mx-4 rounded-xl backdrop-blur-md bg-background/80 border border-border/20 shadow-xl"

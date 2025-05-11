@@ -4,7 +4,7 @@ import Header from "./components/Header"
 import HeroSection from "./sections/HeroSection"
 import HowItWorks from "./sections/HowItWorks"
 import WhyChooseUs from "./sections/WhyChooseUs"
-import Test from "./sections/Test"
+import Reviews from "./sections/Reviews"
 import ContactForm from "./sections/ContactForm"
 import Footer from "./components/Footer"
 import AIChat from "./components/AIChat"
@@ -20,7 +20,7 @@ function App() {
           <HeroSection />
           <HowItWorks />
           <WhyChooseUs />
-          <Test />
+          <Reviews />
           <ContactForm />
         </main>
         <Footer />
