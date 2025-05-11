@@ -82,7 +82,7 @@ const AIChat = ({ isOpen, setIsOpen }) => {
             type: "bot",
             content:
               "I'm not sure I understand your question. Could you try rephrasing it, or select one of these common topics?",
-            suggestions: ["How do I sell my license?", "What types of licenses do you buy?", "Contact a human agent"],
+            suggestions: faqData.map((faq) => faq.question),
           },
         ])
       }
@@ -96,12 +96,7 @@ const AIChat = ({ isOpen, setIsOpen }) => {
         {
           type: "bot",
           content: "What else would you like to know?",
-          suggestions: [
-            "How do I sell my license?",
-            "What types of licenses do you buy?",
-            "How long does the process take?",
-            "Is the process secure?",
-          ],
+          suggestions: faqData.map((faq) => faq.question),
         },
       ])
       return
@@ -121,13 +116,7 @@ const AIChat = ({ isOpen, setIsOpen }) => {
     }
 
     if (suggestion === "Thank you") {
-      setMessages((prev) => [
-        ...prev,
-        {
-          type: "user",
-          content: "Thank you",
-        },
-      ])
+      setMessages((prev) => [...prev, { type: "user", content: "Thank you" }])
 
       setTimeout(() => {
         setMessages((prev) => [
@@ -143,13 +132,7 @@ const AIChat = ({ isOpen, setIsOpen }) => {
     }
 
     if (suggestion === "No, that's all") {
-      setMessages((prev) => [
-        ...prev,
-        {
-          type: "user",
-          content: "No, that's all",
-        },
-      ])
+      setMessages((prev) => [...prev, { type: "user", content: "No, that's all" }])
 
       setTimeout(() => {
         setMessages((prev) => [
