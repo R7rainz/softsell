@@ -36,12 +36,7 @@ const AIChat = ({ isOpen, setIsOpen }) => {
     {
       type: "bot",
       content: "👋 Hi there! I'm SoftSell's virtual assistant. How can I help you today?",
-      suggestions: [
-        "How do I sell my license?",
-        "What types of licenses do you buy?",
-        "How long does the process take?",
-        "Is the process secure?",
-      ],
+      suggestions: faqData.map((faq) => faq.question),
     },
   ])
   const [inputValue, setInputValue] = useState("")
@@ -108,7 +103,7 @@ const AIChat = ({ isOpen, setIsOpen }) => {
         {
           type: "bot",
           content:
-            "Our team is available Monday-Friday, 9am-5pm PST. Please fill out the contact form above and a representative will get back to you within 24 hours.",
+            "Our team is available Monday–Friday, 9am–5pm PST. Please fill out the contact form above and a representative will get back to you within 24 hours.",
           suggestions: ["Thank you", "Ask another question"],
         },
       ])
@@ -152,7 +147,7 @@ const AIChat = ({ isOpen, setIsOpen }) => {
 
   return (
     <>
-      {/* toggle button of chat*/}
+      {/* Toggle chat button */}
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
@@ -195,12 +190,12 @@ const AIChat = ({ isOpen, setIsOpen }) => {
                     <p>{message.content}</p>
 
                     {message.type === "bot" && message.suggestions && message.suggestions.length > 0 && (
-                      <div className="mt-3 flex flex-wrap gap-2">
+                      <div className="mt-3 flex flex-col gap-2">
                         {message.suggestions.map((suggestion, i) => (
                           <button
                             key={i}
                             onClick={() => handleSuggestionClick(suggestion)}
-                            className="text-xs bg-background/50 backdrop-blur-sm text-foreground px-3 py-1 rounded-full border border-border/30 hover:bg-primary/10 transition-colors"
+                            className="w-full text-xs text-left bg-background/50 backdrop-blur-sm text-foreground px-4 py-2 rounded-md border border-border/30 hover:bg-primary/10 transition-colors"
                           >
                             {suggestion}
                           </button>
