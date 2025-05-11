@@ -1,12 +1,12 @@
 import { motion } from "framer-motion"
-import { Star, Quote } from "lucide-react"
+import { Star, Quote, User } from "lucide-react"
 
 const testimonials = [
   {
     name: "Rajesh Kumar",
     role: "IT Director",
     company: "Infotech Solutions",
-    image: "/placeholder.svg?height=100&width=100",
+    image: null,
     content:
       "SoftSell transformed our approach to license management. We recovered over ₹40 lakhs from unused enterprise software licenses that were just sitting idle. The process was seamless and secure.",
   },
@@ -14,7 +14,7 @@ const testimonials = [
     name: "Meera Iyer",
     role: "Chief Financial Officer",
     company: "Nimbus Technologies",
-    image: "/placeholder.svg?height=100&width=100",
+    image: null,
     content:
       "As we transitioned to cloud services, we had numerous perpetual licenses that were no longer needed. SoftSell helped us convert these assets into capital that funded our migration project.",
   },
@@ -22,7 +22,7 @@ const testimonials = [
     name: "Arjun Desai",
     role: "Head of Procurement",
     company: "NextGen Systems",
-    image: "/placeholder.svg?height=100&width=100",
+    image: null,
     content:
       "We had legacy software licenses that were impossible to repurpose. SoftSell provided a way to liquidate these assets responsibly and recover valuable capital for our next-gen tools.",
   },
@@ -70,11 +70,17 @@ const Reviews = () => {
               </p>
 
               <div className="flex items-center space-x-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-primary/30"
-                />
+                {testimonial.image ? (
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-14 h-14 rounded-full object-cover border-2 border-primary/30"
+                  />
+                ) : (
+                  <div className="w-14 h-14 rounded-full border-2 border-primary/30 bg-primary/10 flex items-center justify-center">
+                    <User className="w-7 h-7 text-primary/50" />
+                  </div>
+                )}
                 <div className="text-left">
                   <h4 className="text-md font-semibold">{testimonial.name}</h4>
                   <p className="text-sm text-foreground/70">

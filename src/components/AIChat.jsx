@@ -5,24 +5,29 @@ import { MessageCircle, Send, X } from "lucide-react"
 
 const faqData = [
   {
-    question: "How do I sell my license?",
+    question: "How do I sell my software license?",
     answer:
-      "To sell your license, simply fill out our contact form with details about your software license. Our team will evaluate it and provide you with a competitive offer within 24 hours.",
+      "Start by submitting details about your license through our evaluation form. Once reviewed, we provide an offer within 24 hours. If accepted, we handle the transfer and initiate payment promptly.",
   },
   {
-    question: "What types of licenses do you buy?",
+    question: "Which types of licenses are eligible for resale?",
     answer:
-      "We purchase a wide range of software licenses including enterprise software, creative suites, development tools, database licenses, operating systems, and more. If you're unsure, please contact us for a personalized evaluation.",
+      "We accept perpetual licenses for enterprise, development, design, and infrastructure software. Common examples include Microsoft, Adobe, Autodesk, Oracle, and other major vendors.",
   },
   {
-    question: "How long does the process take?",
+    question: "How is the resale process handled securely?",
     answer:
-      "The entire process typically takes 3-5 business days from initial contact to payment. License valuation is completed within 24 hours, and once you accept our offer, payment is processed within 3 business days.",
+      "We use encrypted communication, follow vendor-specific compliance protocols, and maintain strict confidentiality to ensure all transfers are conducted securely and lawfully.",
   },
   {
-    question: "Is the process secure?",
+    question: "What is the expected timeline from offer to payment?",
     answer:
-      "Yes, we use end-to-end encryption for all communications and transactions. Our secure portal ensures that your license information and personal details are protected throughout the entire process.",
+      "Most transactions are completed within 3–5 business days. Initial offers are typically sent within 24 hours, followed by verification, contract signing, and payment.",
+  },
+  {
+    question: "Can I resell unused or partially used licenses?",
+    answer:
+      "Yes. Unused or surplus perpetual licenses that are no longer in active use can usually be resold, subject to vendor-specific terms. We will verify eligibility during evaluation.",
   },
 ]
 
